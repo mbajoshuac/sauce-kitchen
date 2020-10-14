@@ -1,0 +1,22 @@
+{
+    "name": "sauce-kitchen",
+    "version": "1.0.0",
+    "description": "A Genesys Standardization Test",
+    "main": "app.js",
+    "dependencies": {
+        "express": "^4.17.1",
+        "node": "^14.13.1",
+        "nodemon": "^2.0.5"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "npm test",
+        "start": "nodemon app.js"
+    },
+    "keywords": [
+        "Shopping",
+        "cart"
+    ],
+    "author": "Joshua Mba",
+    "license": "MIT"
+}
