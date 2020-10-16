@@ -1,14 +1,18 @@
 const { Schema, model } = require('mongoose')
+const jwt = require('jsonwebtoken')
 const validator = require('validator')
+var bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
     firstName: {
         type: String,
+        trim: true,
         required: [true, " Firstname is Required"],
         minlength: [3, "Please firstname must be more than 3 characters"]
     },
     lastName: {
         type: String,
+        trim: true,
         required: [true, "Lastname is Required"],
         minlength: [3, "Please lastname must be more than 3 characters"]
 
@@ -16,6 +20,8 @@ const userSchema = new Schema({
 
     email: {
         type: String,
+        unique: true,
+        lowercase: true,
         required: [true, "your email is required"],
         validate: [validator.isEmail, "Your email must be in this format: yourname@domain.com"]
     },
@@ -39,45 +45,49 @@ const userSchema = new Schema({
             message: "Your confirm password must match"
         }
     },
+    sex: {
+        type: String,
+        enum: ["male", "female"],
+        required: true,
+        lowercase: true
+    },
     role: {
         type: String,
-        default: 'customer',
+        default: 'user',
         select: false,
-        enum: ['admin', 'super-admin', 'customer']
-    }
+        enum: ['admin', 'user']
+    },
+    photo: String
 
-})
+}, { timestamps: true })
 
 
-module.exports = model('User', userSchema)
 
-// Document Query
+// UserSchema Query MiddleWare
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password') || !this.isNew) {
         return next();
     }
     this.password = await bcrypt.hash(this.password, 10);
-    this.passwordConfirm = undefined;
-    this.role = 'customer';
+    this.confirmPassword = undefined;
     next();
 });
 
-// query middleware
+// hide the _v mongooose props
 userSchema.pre(/^find/, function(next) {
     this.select('-__v');
     next();
 });
 
+userSchema.methods.generateToken = function() {
+    return jwt.sign({ id: this._id, role: this.role }, privateKey__goat, { expiresIn: '90d' })
+
+}
 
 // Instance method
-// userSchema.methods.confirmPassword = async(userPassword, dbPassword) => {
-//     return await bcrypt.compare(userPassword, dbPassword);
-// }
+userSchema.methods.validatePassword = async(userPassword, dbPassword) => {
+    return await bcrypt.compare(userPassword, dbPassword);
+}
 
-// userSchema.static('findByEmail', function(email) {
-//     return this.findOne({ email });
-// })
 
-// userSchema.statics.findByEmail = function(email) {
-//     return this.findOne({ email });
-// }
+module.exports = model('User', userSchema)

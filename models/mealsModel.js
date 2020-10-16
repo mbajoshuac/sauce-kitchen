@@ -30,6 +30,7 @@ const mealSchema = new Schema({
 
 module.exports = model('Meal', mealSchema)
 
-mealSchema.pre('save', async function() {
+mealSchema.pre('save', async function(next) {
     this.isAvaliable = true
+    next()
 })

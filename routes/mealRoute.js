@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { addMeal, getAMeal, getAllMeal } = require('./../controllers/mealControllers')
+const { addMeal, getAMeal, getAllMeal, deleteMeal, updateMeal, availableMeal } = require('./../controllers/mealControllers')
 
 
 router
@@ -11,6 +11,10 @@ router
 router
     .route('/:id')
     .get(getAMeal)
+    .delete(deleteMeal)
+    .patch(updateMeal)
+
+
 
 
 module.exports = router

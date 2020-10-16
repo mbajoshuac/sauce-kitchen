@@ -14,7 +14,7 @@ mongoose.connect(DB_LOCAL, {
 })
 
 
-
+// Server Listening to port
 const port = 8000
 app.listen(port, () => {
     console.log(`Server is listening to port ${port}`);

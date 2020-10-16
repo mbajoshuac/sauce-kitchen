@@ -1,48 +1,61 @@
-const Meal = require('./../models/meals')
+const Meal = require('../models/mealsModel')
 const { asyncWrapper } = require('./../utils/helpers');
 
 
 exports.addMeal = asyncWrapper(async(req, res, next) => {
-    const { name, description, price, photo } = req.body
-    let meal = await User.findOne({ name })
-    if (meal) {
-        return next(Error(`This Meal ${name} has already been adde. Kindly Update if any changes`))
-    }
-    user = await Meal.create({ name, description, price, photo })
 
-    res.status(201).json({
+    const { name, description, price, photo } = req.body
+    let meal = await Meal.findOne({ name })
+    if (meal) {
+        return next(Error(`This Meal ${name} has already been added. Kindly Update if any changes`))
+    }
+    meal = await Meal.create({ name, description, price, photo })
+
+    res.status(201).json(response(true, "Meal has been added succesfully", meal))
+})
+
+//get all Meals
+exports.getAllMeal = asyncWrapper(async(req, res, next) => {
+    const meal = await Meal.find().select('-__v')
+    res.status(200).json({
         status: "Success",
         data: {
             meal
         }
     })
-})
-
-exports.getAllMeal = asyncWrapper(async(req, res, next) => {
-    const meal = await Meal.find()
-    res.status(200).send({
-        status: "Success",
-        message: {
-            meal
-        }
-    })
 
 })
 
-exports.addMeal = asyncWrapper(async(req, res, next) => {
-
-    res.status(201).send({ message: `Meal adding to db` })
-
-})
-
-exports.addMeal = asyncWrapper(async(req, res, next) => {
-
-    res.status(201).send({ message: `Meal adding to db` })
+//get a specific meal with their ID
+exports.getAMeal = asyncWrapper(async(req, res, next) => {
+    const id = req.params.id
+    if (!id) return next(Error(`Please insert an a correct Meal Id you want retreive`))
+    const meal = await Meal.findById(id).select('-__v')
+    if (!meal) return next(Error(`Meal with id: ${id} can't be found in the record`))
+    res.status(200).json(response(true, "Successfully fetched Meal", meal))
 
 })
 
-exports.addMeal = asyncWrapper(async(req, res, next) => {
+//delete a meal with its ID
+exports.deleteMeal = asyncWrapper(async(req, res, next) => {
+    const id = req.params.id
+    if (!id) return next(Error(`Please insert an a correct Meal Id you want to delete`))
+    const meal = await Meal.findByIdAndDelete(id)
+    if (!meal) {
+        return next(Error(`The Meal with id: ${id} does not exist`))
+    }
+    res.status(204).json(response(true, "Meal successfully deleted", null))
+})
 
-    res.status(201).send({ message: `Meal adding to db` })
+//Update a specific Meal with it's id
+exports.updateMeal = asyncWrapper(async(req, res, next) => {
+    let id = req.params.id
+    if (!id) return next(Error(`Please insert an a correct Meal Id you want to update`))
+    let meal = await Meal.findById(id)
+    if (!meal) return next(Error(`The Meal with this id ${id} does not exist`))
+
+    const { name, description, price, photo } = req.body
+    meal = await Meal.findByIdAndUpdate(user._id, { name, description, price, photo })
+    res.status(200).json(response(true, "Meal successfully upated", meal))
 
 })
