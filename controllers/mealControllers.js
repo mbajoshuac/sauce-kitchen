@@ -1,8 +1,8 @@
 const Meal = require('../models/mealsModel')
-const { asyncWrapper } = require('./../utils/helpers');
+const { catchWrapper } = require('./../utils/helpers');
 
 
-exports.addMeal = asyncWrapper(async(req, res, next) => {
+exports.addMeal = catchWrapper(async(req, res, next) => {
 
     const { name, description, price, photo } = req.body
     let meal = await Meal.findOne({ name })
@@ -15,7 +15,7 @@ exports.addMeal = asyncWrapper(async(req, res, next) => {
 })
 
 //get all Meals
-exports.getAllMeal = asyncWrapper(async(req, res, next) => {
+exports.getAllMeal = catchWrapper(async(req, res, next) => {
     const meal = await Meal.find().select('-__v')
     res.status(200).json({
         status: "Success",
@@ -27,7 +27,7 @@ exports.getAllMeal = asyncWrapper(async(req, res, next) => {
 })
 
 //get a specific meal with their ID
-exports.getAMeal = asyncWrapper(async(req, res, next) => {
+exports.getAMeal = catchWrapper(async(req, res, next) => {
     const id = req.params.id
     if (!id) return next(Error(`Please insert an a correct Meal Id you want retreive`))
     const meal = await Meal.findById(id).select('-__v')
@@ -37,7 +37,7 @@ exports.getAMeal = asyncWrapper(async(req, res, next) => {
 })
 
 //delete a meal with its ID
-exports.deleteMeal = asyncWrapper(async(req, res, next) => {
+exports.deleteMeal = catchWrapper(async(req, res, next) => {
     const id = req.params.id
     if (!id) return next(Error(`Please insert an a correct Meal Id you want to delete`))
     const meal = await Meal.findByIdAndDelete(id)
@@ -48,7 +48,7 @@ exports.deleteMeal = asyncWrapper(async(req, res, next) => {
 })
 
 //Update a specific Meal with it's id
-exports.updateMeal = asyncWrapper(async(req, res, next) => {
+exports.updateMeal = catchWrapper(async(req, res, next) => {
     let id = req.params.id
     if (!id) return next(Error(`Please insert an a correct Meal Id you want to update`))
     let meal = await Meal.findById(id)

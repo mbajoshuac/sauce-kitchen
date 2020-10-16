@@ -73,14 +73,10 @@ userSchema.pre('save', async function(next) {
     next();
 });
 
-// hide the _v mongooose props
-userSchema.pre(/^find/, function(next) {
-    this.select('-__v');
-    next();
-});
+
 
 userSchema.methods.generateToken = function() {
-    return jwt.sign({ id: this._id, role: this.role }, privateKey__goat, { expiresIn: '90d' })
+    return jwt.sign({ id: this._id, role: this.role }, 'privateKey', { expiresIn: '90d' })
 
 }
 

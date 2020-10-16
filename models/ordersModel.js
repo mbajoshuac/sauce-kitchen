@@ -18,6 +18,7 @@ const orderSchema = new Schema({
             default: 1
         }
     }],
+    officeNumber: string,
     status: {
         type: String,
         enum: ['processing', 'delivered'],

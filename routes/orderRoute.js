@@ -3,9 +3,7 @@ const router = express.Router()
 const { makeOrder } = require('./../controllers/orderControllers')
 
 
-router
-    .route('/make')
-    .post(makeOrder)
+router.route('/make/:id').post(makeOrder)
 
 // router
 //     .route('/:id')
