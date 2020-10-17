@@ -1,5 +1,6 @@
 const Meal = require('../models/mealsModel')
 const { catchWrapper } = require('./../utils/helpers');
+const response = require('./../utils/response')
 
 
 exports.addMeal = catchWrapper(async(req, res, next) => {
@@ -29,11 +30,10 @@ exports.getAllMeal = catchWrapper(async(req, res, next) => {
 //get a specific meal with their ID
 exports.getAMeal = catchWrapper(async(req, res, next) => {
     const id = req.params.id
-    if (!id) return next(Error(`Please insert an a correct Meal Id you want retreive`))
+    if (!id) return next(Error(`Please insert  a correct Meal Id you want retreive`))
     const meal = await Meal.findById(id).select('-__v')
     if (!meal) return next(Error(`Meal with id: ${id} can't be found in the record`))
     res.status(200).json(response(true, "Successfully fetched Meal", meal))
-
 })
 
 //delete a meal with its ID

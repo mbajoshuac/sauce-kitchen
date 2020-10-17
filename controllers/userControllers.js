@@ -29,7 +29,7 @@ exports.getAUser = catchWrapper(async(req, res, next) => {
 exports.deleteUser = catchWrapper(async(req, res, next) => {
     const id = req.params.id
     if (!id) return next(Error(`Please insert an a correct User Id you want to delete`))
-    const user = await User.findByIdAndDelete(id)
+    const user = await User.findByIdAndDelete({ _id: id })
     if (!user) return next(Error(`The user with this email: ${id} does not exist`))
     res.status(204).json(response(true, "User account deleted successfully", null))
 })
@@ -41,7 +41,7 @@ exports.updateUser = catchWrapper(async(req, res, next) => {
     if (!user) return next(Error(`The user with this id ${id} does not exist`))
 
     const { firstName, lastName, email, phone } = req.body
-    user = await User.findByIdAndUpdate(user._id, { firstName, lastName, email, phone }, {
+    user = await User.findByIdAndUpdate({ _id: id }, { firstName, lastName, email, phone }, {
         new: true,
         runValidation: true
     })

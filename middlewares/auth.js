@@ -12,12 +12,11 @@ exports.authUser = catchWrapper(async(req, res, next) => {
     req.user = foundUser;
     next();
 
-
 })
 
 exports.authorizeAdmin = catchWrapper(async(req, res, next) => {
     if (req.user.role !== 'admin') {
-        return next(Error('Oops! Access denied - '))
+        return next(Error(`Oops! Access denied - You can't come here`))
     }
     next();
 })

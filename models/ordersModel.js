@@ -2,7 +2,6 @@ const { Schema, model } = require('mongoose')
 
 const orderSchema = new Schema({
     user: {
-        required: true,
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -18,15 +17,15 @@ const orderSchema = new Schema({
             default: 1
         }
     }],
-    officeNumber: String,
+    officeRoomNumber: String,
     status: {
         type: String,
-        enum: ['processing', 'delivered'],
+        lowercase: true,
+        enum: ['processing', 'delivered', 'cancelled'],
         default: 'processing'
     },
     totalPrice: {
-        type: Number,
-        required: true
+        type: String,
     }
 }, { timestamps: true })
 
