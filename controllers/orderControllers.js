@@ -1,4 +1,4 @@
-const Order = require('../models/orderModel')
+const Order = require('../models/ordersModel')
 const { catchWrapper } = require('./../utils/helpers');
 const response = require('./../utils/response')
 
@@ -10,7 +10,7 @@ exports.makeOrder = catchWrapper(async(req, res, next) => {
 
     //productid
     const { mealId, quantity, officeNumber } = req.body
-    const meal = Meal.findById(mealId)
+    const meal = await Meal.findById(mealId)
 
     //order list
     const userOrder = {

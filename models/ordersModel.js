@@ -18,7 +18,7 @@ const orderSchema = new Schema({
             default: 1
         }
     }],
-    officeNumber: string,
+    officeNumber: String,
     status: {
         type: String,
         enum: ['processing', 'delivered'],
@@ -30,4 +30,4 @@ const orderSchema = new Schema({
     }
 }, { timestamps: true })
 
-module.exports = model(Order, orderSchema)
+module.exports = model('Order', orderSchema)

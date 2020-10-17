@@ -8,18 +8,16 @@ exports.authUser = catchWrapper(async(req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = await promisify(jwt.verify)(token, 'privateKey');
     const foundUser = await User.findById(decoded.id).select("+role");
-    if (!foundUser) {
-        return next(Error('User with that token not found. please log in again'));
+    if (!foundUser) return next(Error('User with that token not found. please log in again'));
+    req.user = foundUser;
+    next();
 
-    } else {
-        return next(req.user = foundUser);
-    }
 
 })
 
 exports.authorizeAdmin = catchWrapper(async(req, res, next) => {
     if (req.user.role !== 'admin') {
-        return next(Error('Access denied'))
+        return next(Error('Oops! Access denied - '))
     }
     next();
 })
