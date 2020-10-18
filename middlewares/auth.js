@@ -7,7 +7,7 @@ const response = require('./../utils/response')
 exports.authUser = catchWrapper(async(req, res, next) => {
     if (!req.headers.authorization) return next(Error(`Oops! You are not authorized to use this route - 😝`))
     const token = req.headers.authorization.split(' ')[1];
-    const decoded = await promisify(jwt.verify)(token, process.env.privateKey);
+    const decoded = await promisify(jwt.verify)(token, process.env.KEY);
     const foundUser = await User.findById(decoded.id).select("+role");
     if (!foundUser) return next(Error('User with that token not found. please log in again - 👌'));
     req.user = foundUser;

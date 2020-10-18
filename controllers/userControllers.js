@@ -60,5 +60,5 @@ exports.userLogin = catchWrapper(async(req, res, next) => {
     const token = user.generateToken();
     res.header('authorization', token);
     res.cookie('jwt', token);
-    res.status(200).json(response(true, "User logged in successfully"));
+    res.status(200).json(response(true, "User logged in successfully", token));
 })

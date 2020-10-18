@@ -7,3 +7,5 @@ The Sign up Route handles the user registration. The route is {url}/user/signup
 
 <h3>Login Route</h3>
 The Login Route handles the User Login. The route is {url}/user/login
+
+<h3> </h3>
