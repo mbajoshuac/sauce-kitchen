@@ -41,7 +41,7 @@ This route deletes a User record but requires an Admin Authorization
 <h2>MEAL ROUTE</h2>
 
 <h3>Get all the Meal {url}/meal/all</h3>
-This route get all the Meals added by the admin. This visible to all types of users
+This route get all the Meals added by the admin. This is visible to all type of users
 
 <h3> Add Meal {url}/meal/add</h3>
 This route is for adding new meal to the Meal list. Only an admin can access this route. A simple json file to pass:
@@ -54,9 +54,14 @@ This route is for adding new meal to the Meal list. Only an admin can access thi
 }</code>
 
 
+<h3>Get details of a Meal {url}/meal/:id</h3>
+This route get all details about a meal
+
+
+
 <h2>ORDER ROUTE</h2>
 
-<h3> Make Order </h3>
+<h3> Make Order {url}/order/make</h3>
 
 You will need the Meal id, quantity and the officeRoomNumber (The office of the Genesys Staff that placed order)
 
@@ -66,3 +71,28 @@ You will need the Meal id, quantity and the officeRoomNumber (The office of the 
     "officeRoomNumber": "genesys office 123"
 
 }</code>
+
+<h3> Cancel Order {url}/order/cancel</h3>
+This route is for users to cancel their Meal order. Just pass the order id as a payload. Example:
+<code>{
+    "orderId" : "5f893c3bec48542e24c1e566"
+}</code>
+
+
+<h3> Complete Order {url}/order/complete</h3>
+This route is for users to complete their Meal order once it is delivered. Just pass the order id as a payload. Example:
+<code>{
+    "orderId" : "5f893c3bec48542e24c1e566"
+}</code>
+
+
+<h3> Delete Order {url}/order/delete/:id</h3>
+This route is for admin to delete an Order record. Just pass the order id as a params.
+
+
+<h3> Check A user Order record {url}/order/my</h3>
+This route is for users to View their order records
+
+
+<h3> All Order {url}/order/all</h3>
+This route is for admin to check all order record in the DB
