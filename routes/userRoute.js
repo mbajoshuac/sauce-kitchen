@@ -6,7 +6,7 @@ const { userLogin, addUser, getAUser, getAllUser, deleteUser, updateUser } = req
 
 router.route('/login').post(userLogin)
 router.route('/all').get(authUser, authorizeAdmin, getAllUser)
-router.route('/signup').post(addUser)
+router.route('/signup').post(addUser) // register a new user
 router.route('/delete/:id').delete(authUser, authorizeAdmin, deleteUser)
 router.route('/edit/:id').patch(authUser, updateUser)
 router.route('/:id').get(authUser, getAUser)
