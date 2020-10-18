@@ -4,8 +4,8 @@ const { authUser, authorizeAdmin } = require('./../middlewares/auth')
 const { userLogin, addUser, getAUser, getAllUser, deleteUser, updateUser } = require('./../controllers/userControllers')
 
 
-router.route('/login').post(userLogin)
-router.route('/all').get(authUser, authorizeAdmin, getAllUser)
+router.route('/login').post(userLogin) // login user
+router.route('/all').get(authUser, authorizeAdmin, getAllUser) // get all users - admin
 router.route('/signup').post(addUser) // register a new user
 router.route('/delete/:id').delete(authUser, authorizeAdmin, deleteUser)
 router.route('/edit/:id').patch(authUser, updateUser) // user can edit profile with this route
