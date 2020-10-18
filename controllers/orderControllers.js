@@ -68,7 +68,7 @@ exports.completeOrder = catchWrapper(async(req, res, next) => {
     if (!order) return next(Error(`Oops! the orderid ${orderId} doesn't exist here`))
 
     const completedOrder = await Order.findByIdAndUpdate(orderId, { status: 'delivered' }, { new: true, omitUndefined: true })
-    res.status(200).json(response(true, "We are so sad you cancelled your order - 😭", completedOrder))
+    res.status(200).json(response(true, "We are so glad you've gotten your Meal - 🌝", completedOrder))
 })
 
 //admin deletes order record

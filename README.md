@@ -55,7 +55,15 @@ This route is for adding new meal to the Meal list. Only an admin can access thi
 
 
 <h3>Get details of a Meal {url}/meal/:id</h3>
-This route get all details about a meal
+This route get all details about a meal. just pass mealid as a params
+
+
+<h3>Delete a Particular Meal {url}/meal/delete/:id</h3>
+This route deletes a particular meal. Just pass mealid as a params
+
+<h3>Edit a Particular Meal {url}/meal/delete/:id</h3>
+This route edits a particular meal. Just pass mealid as a params and the MEal update as a payload
+
 
 
 
