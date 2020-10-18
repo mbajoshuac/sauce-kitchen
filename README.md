@@ -22,3 +22,33 @@ This route gets a specific user details.
 
 <h3>Delete User Route<i>{url}/user/delete/:id</i></h3>
 This route deletes a User record but requires an Admin Authorization
+
+
+<h2>MEAL ROUTE</h2>
+
+<h3>Get all the Meal {url}/meal/all</h3>
+This route get all the Meals added by the admin. This visible to all types of users
+
+<h3> Add Meal {url}/meal/add</h3>
+This route is for adding new meal to the Meal list. Only an admin can access this route. A simple json file to pass:
+
+<code>{
+    "name": "Rice and Beans",
+    "description": "This food comes with 2 meat and a bottle of Eba",
+    "price": "750",
+    "photo": "https://spoonacular.com/cdn/ingredients_100x100/apple.jpg"
+}</code>
+
+
+<h2>ORDER ROUTE</h2>
+
+<h3> Make Order </h3>
+
+You will need the Meal id, quantity and the officeRoomNumber (The office of the Genesys Staff that placed order)
+
+{
+    "mealId" : "5f893c3bec48542e24c1e566",
+    "quantity" : 15,
+    "officeRoomNumber": "genesys office 123"
+
+}

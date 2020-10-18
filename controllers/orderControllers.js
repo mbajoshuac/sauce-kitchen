@@ -1,6 +1,5 @@
 const Order = require('../models/ordersModel')
 const Meal = require('../models/mealsModel')
-const User = require('../models/usersModel')
 const { catchWrapper } = require('./../utils/helpers');
 const response = require('./../utils/response')
 
@@ -12,6 +11,8 @@ exports.makeOrder = catchWrapper(async(req, res, next) => {
     let meal = await Meal.findById(mealId)
     console.log(meal);
     if (!meal || !quantity || !officeRoomNumber) return next(Error(`Oops! Please provide a Meal Id, Quantity and OfficeRoomNumber you want to Order`))
+        //check if meal is avaliable
+    if (meal.isAvaliable === false) return next(Error(`Oops! This meal is no more available - 😰`))
         //order list
     let userOrder = {
         meal: mealId,
