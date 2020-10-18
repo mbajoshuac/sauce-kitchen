@@ -7,25 +7,17 @@ exports.addMeal = catchWrapper(async(req, res, next) => {
 
     const { name, description, price, photo } = req.body
     let meal = await Meal.findOne({ name })
-    if (meal) {
-        return next(Error(`This Meal ${name} has already been added. Kindly Update if any changes`))
-    }
+    if (meal) return next(Error(`This Meal ${name} has already been added. Kindly Update if any changes - 🍖`))
     meal = await Meal.create({ name, description, price, photo })
-
-    res.status(201).json(response(true, "Meal has been added succesfully", meal))
+    res.status(201).json(response(true, "Meal has been added succesfully - ✅", meal))
 })
 
-//get all Meals
+//get all for admin view only
 exports.getAllMeal = catchWrapper(async(req, res, next) => {
     const meal = await Meal.find().select('-__v')
-    res.status(200).json({
-        status: "Success",
-        data: {
-            meal
-        }
-    })
-
+    res.status(200).json(response(true, "Here are all our meal - 🍖 ", meal))
 })
+
 
 //get a specific meal with their ID
 exports.getAMeal = catchWrapper(async(req, res, next) => {
@@ -33,7 +25,8 @@ exports.getAMeal = catchWrapper(async(req, res, next) => {
     if (!id) return next(Error(`Please insert  a correct Meal Id you want retreive`))
     const meal = await Meal.findById(id).select('-__v')
     if (!meal) return next(Error(`Meal with id: ${id} can't be found in the record`))
-    res.status(200).json(response(true, "Successfully fetched Meal", meal))
+    res.status(200).json(response(true, "Successfully fetched Meal 🍖", meal))
+
 })
 
 //delete a meal with its ID

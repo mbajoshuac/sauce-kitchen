@@ -1,11 +1,12 @@
 const { Schema, model } = require('mongoose')
 
+
 const orderSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    orders: [{
+    orders: {
         meal: {
             type: Schema.Types.ObjectId,
             required: true,
@@ -16,7 +17,7 @@ const orderSchema = new Schema({
             required: true,
             default: 1
         }
-    }],
+    },
     officeRoomNumber: String,
     status: {
         type: String,
@@ -29,4 +30,14 @@ const orderSchema = new Schema({
     }
 }, { timestamps: true })
 
+
+orderSchema.pre(/^find/, async function(next) {
+    this.populate({
+        path: 'user',
+        select: 'firstName lastName phone'
+    }).populate({
+        path: 'orders.meal',
+        select: 'name isAvaliable price'
+    })
+})
 module.exports = model('Order', orderSchema)

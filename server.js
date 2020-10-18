@@ -1,8 +1,12 @@
+const dotenv = require('dotenv')
+dotenv.config({ path: './config.env' })
+
 const app = require('./app')
 const mongoose = require('mongoose');
 
-const DB_LOCAL = "mongodb://127.0.0.1:27017/sauce_kitchen_db"
-mongoose.connect(DB_LOCAL, {
+
+
+mongoose.connect(process.env.databaseURI, {
     useFindAndModify: false,
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -15,7 +19,7 @@ mongoose.connect(DB_LOCAL, {
 
 
 // Server Listening to port
-const port = 8000
+const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`Server is listening to port ${port}`);
 })

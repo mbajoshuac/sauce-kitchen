@@ -11,7 +11,7 @@ exports.addUser = catchWrapper(async(req, res, next) => {
     if (user) {
         return next(Error('This email is already registered'))
     }
-    user = await User.create({ firstName, sex, lastName, email, phone, password, confirmPassword })
+    user = await User.create({ firstName, sex, lastName, email, phone, password, confirmPassword }, { new: true })
     res.status(201).json(response(true, "Your account was successfully created", user))
 })
 
@@ -39,32 +39,24 @@ exports.updateUser = catchWrapper(async(req, res, next) => {
     if (!id) return next(Error(`Please insert an a correct User Id you want to update`))
     let user = await User.findById(id)
     if (!user) return next(Error(`The user with this id ${id} does not exist`))
-
-    const { firstName, lastName, email, phone } = req.body
-    user = await User.findByIdAndUpdate({ _id: id }, { firstName, lastName, email, phone }, {
-        new: true,
-        runValidation: true
-    })
-    res.status(200).json(response(true, "User account successfully Updated", user))
+    const { firstName, lastName, email, phone, sex, password, confirmPassword } = req.body
+    user = await User.findByIdAndUpdate({ _id: id }, { firstName, lastName, sex, email, phone, password, confirmPassword }, { new: true, omitUndefined: true, runValidation: true })
+    res.status(200).json(response(true, "Your account has been updated Successfully - 😋", user))
 })
 
 
 exports.userLogin = catchWrapper(async(req, res, next) => {
     const { email, password } = req.body;
-
     if (!email || !password) return next(Error('specify the email and password field'));
-
     let user = await User.findOne({ email }).select('+password');
+    if (!user) return next(Error('email or password is wrong 😓'));
+    if (user && !await user.validatePassword(password, user.password))
+        return next(Error('Naaah!...Your email or password is wrong - 😓'));
 
-    if (!user) return next(Error('email or password is wrong'));
-
-    if (user && !await user.validatePassword(password, user.password)) {
-        return next(Error('email or password is wrong'));
-    }
 
     //sign user afterverified with token
     const token = user.generateToken();
     res.header('authorization', token);
     res.cookie('jwt', token);
-    res.status(200).json(response(true, "User logged in successfully", { token }));
+    res.status(200).json(response(true, "User logged in successfully"));
 })

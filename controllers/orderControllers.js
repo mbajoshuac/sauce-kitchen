@@ -4,7 +4,7 @@ const User = require('../models/usersModel')
 const { catchWrapper } = require('./../utils/helpers');
 const response = require('./../utils/response')
 
-
+//user places order
 exports.makeOrder = catchWrapper(async(req, res, next) => {
     const userId = req.user._id
     console.log(userId);
@@ -34,7 +34,7 @@ exports.makeOrder = catchWrapper(async(req, res, next) => {
 exports.allOrder = catchWrapper(async(req, res, next) => {
     const order = await Order.find().select('-__v')
     if (!order) return next(Error(`Oops - Nobody has placed order here. Madam Sauce hold on`))
-    res.status(200).json(response(true, "Here are all the orders", order))
+    res.status(200).json(response(true, "Here are all the orders - 😎", order))
 })
 
 //get all orders of a specific user
@@ -42,19 +42,41 @@ exports.myOrder = catchWrapper(async(req, res, next) => {
     const userId = req.user._id
     const order = await Order.find({ user: userId })
     if (!order) return next(Error(`Oops! You have not bought from Sauce Resturant before... Make an order today`))
-    res.status(200).json(response(true, "Here are your Order list", order))
+    res.status(200).json(response(true, "Here are your Order list - 🙅", order))
 })
 
 
-//update Order delivery status
-exports.updateOrder = catchWrapper(async(req, res, next) => {
+
+//user cancels order that was placed
+exports.cancelOrder = catchWrapper(async(req, res, next) => {
     const userId = req.user._id
-    const { orderId, status } = req.body
-    if (!orderId || !status) return next(Error(`Oops! you need to provide OrderId and delivery Status- [delivered or Cancelled ]`))
+    const { orderId } = req.body
+    if (!orderId) return next(Error(`Oops! you need to provide OrderId cancel your Meal order`))
     const order = await Order.findById({ _id: orderId })
     if (!order) return next(Error(`Oops! the orderid ${orderId} doesn't exist here`))
-    const updateOrder = await Order.findByIdAndUpdate(orderId, { status }, { new: true })
-    res.status(200).json(response(true, "Your Order Status has been Updated correctly", updateOrder))
+    const cancelledOrder = await Order.findByIdAndUpdate(orderId, { status: 'cancelled' }, { new: true, omitUndefined: true })
+    res.status(200).json(response(true, "We are so sad you cancelled your order - 😭", cancelledOrder))
+})
+
+//user complete their order when meal is delivered
+exports.completeOrder = catchWrapper(async(req, res, next) => {
+    const userId = req.user._id
+    const { orderId } = req.body
+    if (!orderId) return next(Error(`Oops! you need to provide OrderId cancel your Meal order`))
+    const order = await Order.findById({ _id: orderId })
+    if (!order) return next(Error(`Oops! the orderid ${orderId} doesn't exist here`))
+
+    const completedOrder = await Order.findByIdAndUpdate(orderId, { status: 'delivered' }, { new: true, omitUndefined: true })
+    res.status(200).json(response(true, "We are so sad you cancelled your order - 😭", completedOrder))
+})
+
+//admin deletes order record
+exports.deleteOrder = catchWrapper(async(req, res, next) => {
+    const orderId = req.params.id
+    if (!orderId) return next(Error(`Oops! you're trying to delete an order that doesn't exist - 😏`))
+    const order = await Order.findByIdAndDelete({ _id: orderId }, { new: true })
+    if (!order) return next(Error(`The order with this id: ${id} does not exist - 😢`))
+    res.status(204).json(response(true, "You have successfully deleted this order - ⚡", null))
 })
 
 
