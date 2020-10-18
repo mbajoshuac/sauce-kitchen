@@ -6,7 +6,7 @@ const app = require('./../app')
 
 it('should create a new User', async() => {
     await request(app)
-        .post('/user/signup')
+        .post('user/signup')
         .send({
             "firstName": "Joshua",
             "lastName": "Mba",
@@ -17,4 +17,18 @@ it('should create a new User', async() => {
             "confirmPassword": "12345678"
         })
         .expect(201)
+})
+
+it('Should get all users', async() => {
+    await request(app)
+        .get('localhost:9000/user/all')
+        .expect(200)
+})
+
+
+it('should delete a user', async() => {
+    const id = ""
+    await request(app)
+        .delete(`user/delete/${id}`)
+        .expect(204)
 })
