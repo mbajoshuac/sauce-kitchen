@@ -21,13 +21,13 @@ it('should create a new User', async() => {
 
 it('Should get all users', async() => {
     await request(app)
-        .get('localhost:9000/user/all')
+        .get('/user/all')
         .expect(200)
 })
 
 
 it('should delete a user', async() => {
-    const id = ""
+    const id = "";
     await request(app)
         .delete(`user/delete/${id}`)
         .expect(204)

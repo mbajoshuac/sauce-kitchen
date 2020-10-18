@@ -15,3 +15,9 @@ it('Should add a new meal', async() => {
         })
         .expect(201)
 })
+
+it('Should get all Meal', async() => {
+    await request(app)
+        .get('meal/all')
+        .expect(200)
+})
