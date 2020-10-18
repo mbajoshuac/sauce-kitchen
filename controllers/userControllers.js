@@ -9,9 +9,12 @@ exports.addUser = catchWrapper(async(req, res, next) => {
     const { firstName, lastName, sex, email, phone, password, confirmPassword } = req.body
     let user = await User.findOne({ email })
     if (user) {
-        return next(Error('This email is already registered'))
+        return next(Error('This email is already registered - 😞'))
     }
-    user = await User.create({ firstName, sex, lastName, email, phone, password, confirmPassword }, { new: true })
+    user = new User({ firstName, sex, lastName, email, phone, password, confirmPassword })
+    await user.save({ new: true })
+
+    console.log(user);
     res.status(201).json(response(true, "Your account was successfully created", user))
 })
 
@@ -53,8 +56,7 @@ exports.userLogin = catchWrapper(async(req, res, next) => {
     if (user && !await user.validatePassword(password, user.password))
         return next(Error('Naaah!...Your email or password is wrong - 😓'));
 
-
-    //sign user afterverified with token
+    //sign user after verified with token
     const token = user.generateToken();
     res.header('authorization', token);
     res.cookie('jwt', token);

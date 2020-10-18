@@ -21,7 +21,7 @@ app.use('/order', orderRouter)
 
 //Error MiddleWare
 app.use((err, req, res, next) => {
-    err.message = err.message || "Something went wrong";
+    err.message = err.message || "Something went wrong - 😌";
     res.status(500).json(response('failed', err.message))
 })
 

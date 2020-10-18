@@ -64,7 +64,7 @@ const userSchema = new Schema({
 
 
 // UserSchema Query MiddleWare
-userSchema.pre('save findByIdAndUpdate', async function(next) {
+userSchema.pre('save', async function(next) {
     if (!this.isModified('password') || !this.isNew) {
         return next();
     }
@@ -76,7 +76,7 @@ userSchema.pre('save findByIdAndUpdate', async function(next) {
 
 
 userSchema.methods.generateToken = function() {
-    return jwt.sign({ id: this._id, role: this.role }, process.env.privateKey, { expiresIn: '90d' })
+    return jwt.sign({ id: this._id, role: this.role }, process.env.KEY, { expiresIn: '90d' })
 
 }
 
