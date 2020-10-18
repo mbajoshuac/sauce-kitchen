@@ -4,10 +4,24 @@ This APi provides all the routes needed to implements a platform where Madam sau
 
 <h2>USER ROUTE</h2>
 <h3>Sign Up Route <i>{url}/user/signup</i></h3>
-The Sign up Route handles the user registration.
+The Sign up Route handles the user registration. here is a sample Json snippet.
+
+<code>{
+    "firstName": "Joshua",
+    "lastName": "Mba",
+    "phone": "07063516620",
+    "sex": "male",
+    "email": "joshua.mba.g20@gmail.com",
+    "password": "12345678",
+    "confirmPassword": "12345678"
+}</code>
 
 <h3>User Login Route <i>{url}/user/login</i></h3>
-The Login Route handles the User Login.
+The Login Route handles the User Login. An example of json snippet to pass.
+<code>{
+    "email": "joshua@gmail.com",
+    "password": "12345678"
+}</code>
 
 <h3>User Update Route  <i>{url}/user/edit/:id</i></h3>
 The user update route handles the profile update of the user. This route requires user authorization. This means user must login before he can update details.
@@ -46,9 +60,9 @@ This route is for adding new meal to the Meal list. Only an admin can access thi
 
 You will need the Meal id, quantity and the officeRoomNumber (The office of the Genesys Staff that placed order)
 
-{
+<code>{
     "mealId" : "5f893c3bec48542e24c1e566",
     "quantity" : 15,
     "officeRoomNumber": "genesys office 123"
 
-}
+}</code>

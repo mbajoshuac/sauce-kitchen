@@ -79,16 +79,3 @@ exports.deleteOrder = catchWrapper(async(req, res, next) => {
     if (!order) return next(Error(`The order with this id: ${id} does not exist - 😢`))
     res.status(204).json(response(true, "You have successfully deleted this order - ⚡", null))
 })
-
-
-// user edit order 
-// exports.editOrder = catchWrapper(async(req, res, next) => {
-//     const userId = req.user._id
-//     const { orderId, mealid, quantity, officeRoomNumber, } = req.body.orderId
-//         //get order that match user and Order id
-//     const order = await Order.findOne({ user: userId, _id: orderId })
-//     if (!order) return next(Error(`Oops! seems you're trying an order that is not yours... Try Again`))
-
-//     const updateOrder = await Order.findByIdAndUpdate({meal:mealId, })
-//     res.status(200).json(response(true, "Your Order Status has been Updated correctly", order))
-// })
